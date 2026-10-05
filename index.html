@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Foco · Quadro de tarefas</title>
+  <meta name="description" content="Quadro de tarefas estilo Kanban feito com HTML, CSS e JavaScript puros.">
+  <!-- Aplica o tema antes de renderizar, para evitar "piscar" -->
+  <script>try{document.documentElement.dataset.tema=localStorage.getItem('foco:tema')||(matchMedia('(prefers-color-scheme: dark)').matches?'escuro':'claro')}catch(e){}</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <script src="script.js" defer></script>
+</head>
+<body>
+  <a class="pular" href="#quadro">Ir para o quadro</a>
+
+  <header class="topo">
+    <div>
+      <h1>Foco</h1>
+      <p class="sub">Organize o dia em três colunas. Tudo fica salvo neste navegador.</p>
+    </div>
+    <div class="topo-acoes">
+      <button class="btn btn-sec" type="button" id="btn-tema">Tema escuro</button>
+      <button class="btn btn-sec" type="button" id="btn-exportar">Exportar JSON</button>
+    </div>
+  </header>
+
+  <main>
+    <section class="resumo" aria-label="Progresso">
+      <div class="trilho"><div class="barra" id="barra" role="progressbar" aria-label="Tarefas concluídas" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"></div></div>
+      <p id="resumo-texto"></p>
+    </section>
+
+    <form class="nova" id="form-nova" autocomplete="off">
+      <label class="campo campo-titulo">Nova tarefa
+        <input name="titulo" required maxlength="80" placeholder="Ex.: Publicar o projeto no GitHub">
+      </label>
+      <label class="campo">Prioridade
+        <select name="prioridade">
+          <option value="alta">Alta</option>
+          <option value="media" selected>Média</option>
+          <option value="baixa">Baixa</option>
+        </select>
+      </label>
+      <label class="campo">Prazo
+        <input type="date" name="prazo">
+      </label>
+      <button class="btn btn-pri" type="submit">Adicionar tarefa</button>
+    </form>
+
+    <div class="filtros">
+      <label class="campo">Buscar
+        <input type="search" id="busca" placeholder="Digite parte do título">
+      </label>
+      <label class="campo">Filtrar por prioridade
+        <select id="filtro-prioridade">
+          <option value="">Todas</option>
+          <option value="alta">Alta</option>
+          <option value="media">Média</option>
+          <option value="baixa">Baixa</option>
+        </select>
+      </label>
+    </div>
+
+    <section class="quadro" id="quadro" aria-label="Quadro de tarefas"></section>
+  </main>
+
+  <dialog id="dialogo" aria-labelledby="dialogo-titulo">
+    <form id="form-edicao">
+      <h2 id="dialogo-titulo">Editar tarefa</h2>
+      <label class="campo">Título
+        <input name="titulo" required maxlength="80">
+      </label>
+      <label class="campo">Prioridade
+        <select name="prioridade">
+          <option value="alta">Alta</option>
+          <option value="media">Média</option>
+          <option value="baixa">Baixa</option>
+        </select>
+      </label>
+      <label class="campo">Prazo
+        <input type="date" name="prazo">
+      </label>
+      <div class="dialogo-acoes">
+        <button class="btn btn-sec" type="button" id="btn-cancelar">Cancelar</button>
+        <button class="btn btn-pri" type="submit">Salvar alterações</button>
+      </div>
+    </form>
+  </dialog>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <footer class="rodape">Feito com HTML, CSS e JavaScript puros, sem bibliotecas.</footer>
+</body>
+</html>
